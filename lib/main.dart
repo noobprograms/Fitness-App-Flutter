@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fitness_app/utils/routes/routes.dart';
+import 'package:flutter_fitness_app/utils/routes/routes_name.dart';
+import 'package:flutter_fitness_app/view/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +32,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: RoutesName.splashScreen,
+      onGenerateRoute: Routes.generateRoute,
+    );
   }
 }

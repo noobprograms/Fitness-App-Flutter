@@ -49,9 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
                     begin: RelativeRect.fromLTRB(0, 0, 0, screenHeight / 6),
                     end: RelativeRect.fromLTRB(0, screenHeight / 7, 0, 0))
                 .animate(curveAnimation),
-            child: Hero(
-                tag: ImageConstant.logo,
-                child: Center(child: Image.asset(ImageConstant.logo))),
+            child: Center(child: Image.asset(ImageConstant.logo)),
           ),
         ],
       ),

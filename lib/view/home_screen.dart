@@ -13,6 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('home screen'),
+        automaticallyImplyLeading: false,
       ),
     );
   }

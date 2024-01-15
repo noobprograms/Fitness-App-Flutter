@@ -10,7 +10,7 @@ class Routes {
       case RoutesName.splashScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => SplashScreen());
-      case RoutesName.home:
+      case RoutesName.onBoardingScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => OnBoardingScreen());
       case RoutesName.home:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fitness_app/res/color.dart';
+import 'package:flutter_fitness_app/res/widgets/onBoardingWidget.dart';
 import 'package:flutter_fitness_app/utils/constants.dart';
 import 'package:flutter_fitness_app/utils/imageConstants.dart';
 import 'package:flutter_fitness_app/utils/routes/routes_name.dart';
@@ -18,6 +20,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int onBoardingIndex = 0;
   bool first = true;
   List<Map<String, dynamic>> onBoardingList = [];
+  int currentIndex = 0;
+
   @override
   void initState() {
     assetImage1 = AssetImage(ImageConstant.onBoarding1);
@@ -57,99 +61,56 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
-        width: screenWidth,
-        height: screenHeight,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 35, 37, 46),
-            image: DecorationImage(
-                image: onBoardingList[onBoardingIndex]['image'],
-                colorFilter: ColorFilter.mode(Colors.black26, BlendMode.darken),
-                fit: BoxFit.cover)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      onBoardingList[onBoardingIndex]['title'],
-                      maxLines: 3,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenHeight * 0.05),
+        body: Stack(alignment: Alignment.center, children: [
+      PageView.builder(
+          itemCount: onBoardingList.length + 1,
+          onPageChanged: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+          },
+          itemBuilder: (context, index) {
+            return index < 3
+                ? OnBoardingWidget(
+                    image: onBoardingList[index]['image'],
+                    title: onBoardingList[index]['title'],
+                    subtitle: onBoardingList[index]['subtitle'])
+                : Container(
+                    width: screenWidth,
+                    height: screenHeight,
+                    child: Center(
+                      child: TextField(
+                        decoration: InputDecoration(
+                            label: Text('Email'), hintText: "Enter Your email"),
+                      ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.03,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      onBoardingList[onBoardingIndex]['subtitle'],
-                      maxLines: 3,
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 192, 190, 190),
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenHeight * 0.02),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.05,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  first
-                      ? Container()
-                      : ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (onBoardingIndex == 1) {
-                                onBoardingIndex -= 1;
-                                first = true;
-                              } else
-                                onBoardingIndex -= 1;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 163, 43, 34)),
-                          child: Text(
-                            'Previous',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          first = false;
-                          if (onBoardingIndex == 2)
-                            Navigator.pushReplacementNamed(
-                                context, RoutesName.home);
-                          else
-                            onBoardingIndex += 1;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 163, 43, 34)),
-                      child: Text(
-                        'Next',
-                        style: TextStyle(color: Colors.white),
-                      ))
-                ],
-              )
-            ],
-          ),
-        ),
+                  );
+          }),
+      currentIndex < 3
+          ? Positioned.directional(
+              textDirection: TextDirection.ltr,
+              bottom: screenHeight * 0.01,
+              child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(onBoardingList.length,
+                        (index) => buildDot(index, context)),
+                  )),
+            )
+          : Container()
+    ]));
+  }
+
+  Container buildDot(int index, BuildContext context) {
+    // Another Container returned
+    return Container(
+      height: 10,
+      width: currentIndex == index ? 25 : 10,
+      margin: EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.red,
       ),
     );
   }

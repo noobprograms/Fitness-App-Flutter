@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fitness_app/res/color.dart';
-import 'package:flutter_fitness_app/res/widgets/onBoardingWidget.dart';
+import 'package:flutter_fitness_app/providers/auth_provider.dart';
+
+import 'package:flutter_fitness_app/widgets/onBoardingWidget.dart';
 import 'package:flutter_fitness_app/utils/constants.dart';
 import 'package:flutter_fitness_app/utils/imageConstants.dart';
 import 'package:flutter_fitness_app/utils/routes/routes_name.dart';
+import 'package:provider/provider.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -21,6 +23,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   bool first = true;
   List<Map<String, dynamic>> onBoardingList = [];
   int currentIndex = 0;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   void initState() {
@@ -78,11 +82,77 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 : Container(
                     width: screenWidth,
                     height: screenHeight,
-                    child: Center(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            label: Text('Email'), hintText: "Enter Your email"),
-                      ),
+                    color: Color.fromARGB(255, 35, 37, 46),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: screenHeight * 0.1,
+                        ),
+                        Text(
+                          "Start Grinding!",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: screenHeight * 0.05),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.1,
+                        ),
+                        Container(
+                          width: screenWidth * 0.8,
+                          child: TextField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              hintText: "Enter Your Name",
+                              hintStyle: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 149, 149, 149)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Adjust the radius for more or less curve
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.04,
+                        ),
+                        Container(
+                          width: screenWidth * 0.8,
+                          child: TextField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              hintText: "Enter Your email",
+                              hintStyle: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 149, 149, 149)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Adjust the radius for more or less curve
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.1,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Provider.of<AuthProvider>(context, listen: false)
+                                .setEmailAndName(
+                                    nameController.text, emailController.text);
+                            Navigator.pushReplacementNamed(
+                                context, RoutesName.emailVerificationScreen);
+                          },
+                          child: Text(
+                            'Verify Email',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                        )
+                      ],
                     ),
                   );
           }),

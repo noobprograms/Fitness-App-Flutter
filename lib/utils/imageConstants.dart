@@ -4,4 +4,5 @@ class ImageConstant {
   static String onBoarding1 = '$imagePath/onBoardingPic1.jpg';
   static String onBoarding2 = '$imagePath/onBoardingPic2.jpg';
   static String onBoarding3 = '$imagePath/onBoardingPic3.jpg';
+  static String verifyEmail = '$imagePath/verifyEmail.jpg';
 }

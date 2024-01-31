@@ -40,6 +40,8 @@ dependencies:
   provider: ^6.1.1
   another_flushbar: ^1.12.30
   google_fonts: ^6.1.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
 
   
 

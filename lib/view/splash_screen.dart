@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fitness_app/providers/auth_provider.dart' as authP;
+
 import 'package:flutter_fitness_app/utils/imageConstants.dart';
 import 'package:flutter_fitness_app/utils/routes/routes_name.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,11 +24,14 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: Duration(seconds: 3),
     );
+    // var loginBool =
+    //     Provider.of<AuthProvider>(context, listen: false).isLoggedIn;
     curveAnimation =
         CurvedAnimation(parent: _animationController, curve: Curves.bounceOut)
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
-              Navigator.pushNamed(context, RoutesName.onBoardingScreen);
+              Provider.of<authP.AuthProvider>(context, listen: false)
+                  .initAuthScreen(context, FirebaseAuth.instance.currentUser);
             }
           });
     _animationController.forward();
